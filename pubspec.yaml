@@ -1,0 +1,55 @@
+name: myapp
+description: "A new Flutter project."
+publish_to: 'none' 
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+#utility packages
+  http: ^1.2.2
+  intl: ^0.20.1
+  logger: ^2.5.0
+  url_launcher: ^6.3.1
+  flutter_native_splash: ^2.4.4
+  path_provider: ^2.1.5
+  smooth_page_indicator: ^1.2.0+3
+  lottie: ^3.3.1
+  
+  #icons
+  cupertino_icons: ^1.0.8
+  iconsax: ^0.0.8
+  #storage
+  shared_preferences: ^2.5.1
+
+  #state management
+  get: ^4.6.6
+  get_storage: ^2.1.1
+  
+  #google font
+  google_fonts: ^6.2.1
+  flutter_heatmap_calendar: ^1.0.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+
+flutter:
+
+  
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/illustrations/
+    - assets/logos/
+  
+ 
+
+  
