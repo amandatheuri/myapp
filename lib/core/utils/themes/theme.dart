@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/core/utils/constants/colors.dart';
+import 'package:myapp/core/utils/themes/customthemes/appbar.dart';
 import 'package:myapp/core/utils/themes/customthemes/bottomsheet.dart';
 import 'package:myapp/core/utils/themes/customthemes/checkbox.dart';
 import 'package:myapp/core/utils/themes/customthemes/elevatedbutton.dart';
@@ -17,11 +18,9 @@ class TAppTheme {
     textTheme: TTexttheme.lightTheme,
     elevatedButtonTheme: TElevatedButtonTheme.lightTheme,
     outlinedButtonTheme: TOutlinedButton.lightTheme,
-    appBarTheme: AppBarTheme(
-      backgroundColor: Colors.transparent,
-    ),
+    appBarTheme: TAppBarTheme.lightTheme,
     inputDecorationTheme: TTextField.allThemes,
-    checkboxTheme: TCheckBox.allThemes,
+    checkboxTheme: TCheckBox.lightTheme,
     bottomSheetTheme: TBottomsheet.darkTheme,
   );
   static ThemeData darkTheme = ThemeData(
@@ -30,11 +29,9 @@ class TAppTheme {
     primaryColor: TColors.primaryColor,
     scaffoldBackgroundColor: Colors.black,
     textTheme: TTexttheme.darkTheme,
-    appBarTheme: AppBarTheme(
-      backgroundColor: Colors.transparent,
-    ),
+    appBarTheme: TAppBarTheme.darkTheme,
     outlinedButtonTheme: TOutlinedButton.darkTheme,
-    checkboxTheme: TCheckBox.allThemes,
+    checkboxTheme: TCheckBox.darkTheme,
     bottomSheetTheme: TBottomsheet.darkTheme,
     inputDecorationTheme: TTextField.allThemes,
     elevatedButtonTheme: TElevatedButtonTheme.darkTheme

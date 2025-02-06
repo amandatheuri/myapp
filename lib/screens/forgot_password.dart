@@ -27,7 +27,7 @@ class ForgotPassword extends StatelessWidget {
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
           ),
         ),
-        SizedBox(height: 35),
+        SizedBox(height: 25),
          Text('Enter email',
          style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
          ),
@@ -55,7 +55,7 @@ class ForgotPassword extends StatelessWidget {
               Get.to(() => ResetPassword());
             },
             child: Text('Reset Password',
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.bold
             ),
             )

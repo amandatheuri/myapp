@@ -9,7 +9,7 @@ class SkipButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(top: TDevice.getappbarHeight(), right: 24,
+    return Positioned(top: TDevice.getappbarHeight(context), right: 24,
     child: TextButton( onPressed: () {OnboardingController.instance.skipPage();},
     child: Text('Skip', style:Theme.of(context).textTheme.bodySmall)));
   }

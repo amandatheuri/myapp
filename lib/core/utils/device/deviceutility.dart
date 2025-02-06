@@ -74,7 +74,7 @@ class TDevice {
     return true; // Placeholder
   }
 
-  static getappbarHeight(){
+  static getappbarHeight(BuildContext context){
     return AppBar().preferredSize.height;
   }
 

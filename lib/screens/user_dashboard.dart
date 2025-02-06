@@ -14,6 +14,24 @@ class UserDashboard extends StatelessWidget {
     final bool isDark = TDevice.isDarkMode(context);
 
     return Scaffold(
+      appBar: AppBar(title: Text('Dashboard'), 
+      actions: [
+      Padding(padding: EdgeInsets.only(right:24),
+      child: CircleAvatar(  radius: 18,
+                            backgroundColor: TColors.primaryColor,
+                            child: IconButton(
+                              onPressed: () {
+                                Get.to(()=> UserProfile());
+                              },
+                              icon: const Icon(Iconsax.user),
+                              iconSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+      ),
+      ],
+      backgroundColor: Colors.black,
+      ),
       body: Stack(
         
         children: [
@@ -39,64 +57,60 @@ class UserDashboard extends StatelessWidget {
                             fontSize: 20,
                           ),
                         ),
-                        const Spacer(),
-                         ///profile icon button
-                        IconButton(
-                          onPressed: () {
-                            Get.to(()=> UserProfile());
-                          },
-                          icon: const Icon(Iconsax.user),
-                          iconSize: 30,
-                          color: Colors.grey[700],
-                        ),
-                        
-                       
                       ],
                     ),
                     const SizedBox(height: 25),
                     Row(
                       children: [
-                        Column(
-                          children: [
-                            Text(
-                              '200g',
-                              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                                fontSize: 50,
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Disposed',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: Colors.grey[700],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(width: 45),
                         Container(
-                          height: 120,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.green.withOpacity(0.5),
-                                spreadRadius: isDark ? -12 : -6,
-                                blurRadius: 10,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: VerticalDivider(
-                            color: Colors.grey[700],
-                            thickness: 1,
-                            indent: 10,
-                            endIndent: 10,
-                          ),
-                        ),
+  height: TDevice.getScreenHeight(context) * 0.25,
+  width: TDevice.getScreenWidth(context) * 0.4,
+  decoration: BoxDecoration(
+    color: Theme.of(context).brightness == Brightness.dark 
+        ? Colors.grey[900] // Dark mode color
+        : Colors.grey[200], // Light mode color
+    borderRadius: BorderRadius.circular(15),
+    boxShadow: [
+      // Light shadow (top-left)
+      BoxShadow(
+        color: Colors.white.withOpacity(0.7),
+        offset: Offset(-1, -1),
+        blurRadius: 10,
+      ),
+      // Dark shadow (bottom-right)
+      BoxShadow(
+        color: Colors.black.withOpacity(0.2),
+        offset: Offset(5, 5),
+        blurRadius: 10,
+      ),
+    ],
+  ),
+  child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text(
+        '200g',
+        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+          fontSize: 40,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      const SizedBox(height: 20),
+      Align(
+        alignment: Alignment.center,
+        child: Text(
+          'Disposed',
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            color: Colors.grey[700],
+          ),
+        ),
+      ),
+    ],
+  ),
+),
+
+                        
+                    
                         const Spacer(),
                         Expanded(
                           flex:6,
@@ -143,9 +157,9 @@ class UserDashboard extends StatelessWidget {
                             ],
                           ),
                         ),
-                      ],
+                      ]
                     ),
-                    const SizedBox(height: 30),
+          SizedBox(height: 30),
                     Text(
                       'Your disposal trend',
                       style: Theme.of(context).textTheme.headlineSmall?.copyWith(

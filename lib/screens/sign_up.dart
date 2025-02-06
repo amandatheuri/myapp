@@ -13,11 +13,11 @@ class SignUpScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            vertical: 24,
+            vertical: 50,
             horizontal: 24
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,  // ✅ Ensures left alignment
+            crossAxisAlignment: CrossAxisAlignment.start,  
             children: [
               IconButton(
                 onPressed: () {
@@ -37,11 +37,11 @@ class SignUpScreen extends StatelessWidget {
 
               Text(
                 TTextstrings.signUp,
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.grey[700]),
               ),
               const SizedBox(height: 40.0),
               
-              SignUpForm(isDarkMode: isDarkMode)  // ✅ Ensure `isDarkMode` is passed correctly
+              SignUpForm(isDarkMode: isDarkMode)
             ],
           ),
         ),

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:myapp/core/utils/constants/imagestrings.dart';
 import 'package:myapp/core/utils/constants/textstrings.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:myapp/navigation_bar.dart';
+import 'package:myapp/screens/success.dart';
 
 class SignUpForm extends StatelessWidget {
   const SignUpForm({super.key, required this.isDarkMode});
@@ -68,7 +68,7 @@ class SignUpForm extends StatelessWidget {
             height: 50,
             child: ElevatedButton(
               onPressed: () {
-                Get.to(() => Scaffold(body: NavBar())); 
+                Get.to(() => Success()); 
               },
               child: Text(
                 TTextstrings.signUp,
