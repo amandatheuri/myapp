@@ -8,4 +8,5 @@ class TImageStrings {
   static const success= "assets/images/success_light.png";
   static const successDark = "assets/images/success_dark.png";
   static const emailsent= "assets/images/email_sent.png";
+  static const wallet= "assets/images/payment (1).png";
 }

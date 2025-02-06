@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:myapp/core/utils/constants/colors.dart';
 import 'package:myapp/core/utils/device/deviceutility.dart';
+import 'package:myapp/screens/wallet.dart';
 import 'package:myapp/widgets/menulist/menulist.dart';
 
 class UserProfile extends StatelessWidget {
@@ -103,7 +105,7 @@ class UserProfile extends StatelessWidget {
               const Divider(color: Colors.grey),
               const SizedBox(height: 5),
               MenuList(title: 'Settings', icon: Icons.settings_outlined, onPress:(){}, textColor: Colors.grey[700],),
-              MenuList(title: 'Token Wallet', icon: Iconsax.coin, onPress:(){}, textColor: Colors.grey[700],),
+              MenuList(title: 'Token Wallet', icon: Iconsax.coin, onPress:(){Get.to(()=>WalletScreen());}, textColor: Colors.grey[700],),
               MenuList(title: 'Notifications', icon: Iconsax.notification, onPress:(){}, textColor: Colors.grey[700]),
               MenuList(title: 'Analytics', icon: Iconsax.chart_1, onPress:(){}, textColor: Colors.grey[700]),
               MenuList(title: 'Referal code', icon: Icons.share_rounded, onPress:(){}, textColor: Colors.grey[700]),

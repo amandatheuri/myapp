@@ -12,12 +12,11 @@ class NavBar extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: Obx(
         () => NavigationBar(
-          height: 90,
-        elevation: 0,
+          height: 70,
+        elevation: 3,
         selectedIndex: controller.selectedIndex.value,
         indicatorColor: TColors.primaryColor,
         backgroundColor: Colors.transparent,
-        
         onDestinationSelected: (index) => controller.selectedIndex.value = index,
           destinations: [
             NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),

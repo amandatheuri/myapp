@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:get/get.dart';
@@ -30,7 +32,6 @@ class UserDashboard extends StatelessWidget {
                           ),
       ),
       ],
-      backgroundColor: Colors.black,
       ),
       body: Stack(
         
@@ -66,7 +67,7 @@ class UserDashboard extends StatelessWidget {
   height: TDevice.getScreenHeight(context) * 0.25,
   width: TDevice.getScreenWidth(context) * 0.4,
   decoration: BoxDecoration(
-    color: Theme.of(context).brightness == Brightness.dark 
+    color: isDark
         ? Colors.grey[900] // Dark mode color
         : Colors.grey[200], // Light mode color
     borderRadius: BorderRadius.circular(15),
