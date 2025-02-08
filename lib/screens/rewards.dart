@@ -11,7 +11,7 @@ class RewardsScreen extends StatefulWidget {
 
 class _RewardStorePageState extends State<RewardsScreen> {
   bool _isSearching = false;
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   final List<String> stores = [
     "EcoMart",
     "Green Grocers",
