@@ -55,7 +55,7 @@ class Success extends StatelessWidget {
                    Get.to(()=> NavBar());
                   },
                   child: Text(
-                    TTextstrings.getStarted,
+                    TTextstrings.getStarted, style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
                   ),
                 )
               )
