@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class THelper {
+  static String? validateTextFields (String? fieldName, String value) {
+    if(value.isEmpty){
+      return '$fieldName is required';
+    }
+    return null;
+  }
   
   // Helper function to show a simple dialog message
   static Future<void> showDialogMessage(BuildContext context, String title, String message) async {
@@ -26,12 +32,15 @@ class THelper {
   }
 
   // Helper function to validate an email format
-  static bool isValidEmail(String email) {
+  static String? isValidEmail(String? value) {
+    if(value==null || value.isEmpty){
+      return 'Email is required';
+    }
     final RegExp emailRegex = RegExp(
-      r'^[a-zA-Z0-9]+[a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-    );
-    return emailRegex.hasMatch(email);
-  }
+      r'^[a-zA-Z0-9]+[a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+      if(!emailRegex.hasMatch(value)) {return 'Invalid email format';}
+      return null;
+      }
 
   // Helper function to validate if the waste quantity is within a valid range
   static bool isValidWasteQuantity(int quantity) {
@@ -45,13 +54,19 @@ class THelper {
   }
 
   // Helper function to format a phone number (e.g., adding country code for Kenyan numbers)
-  static String formatPhoneNumber(String phoneNumber) {
-    if (phoneNumber.startsWith('0')) {
-      return '+254${phoneNumber.substring(1)}'; // Prefix with +254 for Kenya
-    } else if (phoneNumber.startsWith('+254')) {
-      return phoneNumber;
+  static String? formatPhoneNumber(String? value) {
+    if(value==null||value.isEmpty){
+      return 'Phone number is required';
+    }
+    if (value.startsWith('0')) {
+      return '+254${value.substring(1)}'; // Prefix with +254 for Kenya
+    }else if(value.startsWith('+2540')){
+      return '+254${value.substring(5)}';
+    } 
+    else if (value.startsWith('+254')) {
+      return value;
     } else {
-      return '+254$phoneNumber'; // Assuming it's a valid Kenyan phone number
+      return '+254$value'; // Assuming it's a valid Kenyan phone number
     }
   }
 
@@ -94,37 +109,39 @@ class THelper {
 
   /// Validates the strength of a given password.
 /// Returns null if the password is valid, otherwise returns an error message.
-String? validatePassword(String password) {
+static String? validatePassword(String? value) {
   // Minimum password length requirement
   const int minLength = 8;
-
+  if (value==null||value.isEmpty){
+    return 'Password is required';
+  }
   // Check if the password is long enough
-  if (password.length < minLength) {
+  if (value.length < minLength) {
     return 'Password must be at least $minLength characters long.';
   }
 
   // Check for at least one uppercase letter
-  if (!RegExp(r'[A-Z]').hasMatch(password)) {
+  if (!RegExp(r'[A-Z]').hasMatch(value)) {
     return 'Password must contain at least one uppercase letter.';
   }
 
   // Check for at least one lowercase letter
-  if (!RegExp(r'[a-z]').hasMatch(password)) {
+  if (!RegExp(r'[a-z]').hasMatch(value)) {
     return 'Password must contain at least one lowercase letter.';
   }
 
   // Check for at least one digit
-  if (!RegExp(r'[0-9]').hasMatch(password)) {
+  if (!RegExp(r'[0-9]').hasMatch(value)) {
     return 'Password must contain at least one digit.';
   }
 
   // Check for at least one special character
-  if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(password)) {
+  if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
     return 'Password must contain at least one special character.';
   }
 
   // Check for spaces
-  if (password.contains(' ')) {
+  if (value.contains(' ')) {
     return 'Password must not contain spaces.';
   }
 

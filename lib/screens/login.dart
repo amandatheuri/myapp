@@ -18,12 +18,7 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(
-            left: 18.0,
-            right: 18.0,
-            top: 56.0,
-            bottom: 24.0,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
           child: Column(
             children: [
               Column(
@@ -67,7 +62,7 @@ class LoginScreen extends StatelessWidget {
                         suffixIcon: const Icon(Icons.visibility),
                       ),
                     ),
-                     Row(
+                    Row(
                       children: [
                         Checkbox(
                           value: true,
@@ -76,24 +71,30 @@ class LoginScreen extends StatelessWidget {
                           ),
                           onChanged: (value) {},
                         ),
-                        Text(TTextstrings.rememberMe, style: Theme.of(context).textTheme.bodySmall,),
-                        const Spacer(
+                        Text(
+                          TTextstrings.rememberMe,
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
+                        const Spacer(),
                         TextButton(
-                        onPressed: (){
-                        Get.to(() => const ForgotPassword());
-                         },
-                        style: TextButton.styleFrom(
-                        foregroundColor: Theme.of(context).textTheme.bodySmall?.color, // Set text color
+                          onPressed: () {
+                            Get.to(() => const ForgotPassword());
+                          },
+                          style: TextButton.styleFrom(
+                            foregroundColor: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.color, // Set text color
+                          ),
+                          child: Text(
+                            TTextstrings.forgotPassword,
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      fontWeight: FontWeight
+                                          .bold, // Customize font weight as needed
+                                    ),
+                          ),
                         ),
-                        child: Text(
-                        TTextstrings.forgotPassword,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.bold, // Customize font weight as needed
-                        ),
-                        ),
-                         ),
-
                       ],
                     ),
                     const SizedBox(height: 5.0),
@@ -101,14 +102,15 @@ class LoginScreen extends StatelessWidget {
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: (){
-                        Get.to(() => NavBar());
+                        onPressed: () {
+                          Get.to(() => NavBar());
                         },
                         child: Text(
                           TTextstrings.login,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                         ),
                       ),
                     ),
@@ -121,7 +123,8 @@ class LoginScreen extends StatelessWidget {
                           // Navigate to sign-up screen
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => SignUpScreen()),
+                            MaterialPageRoute(
+                                builder: (context) => SignUpScreen()),
                           );
                         },
                         style: OutlinedButton.styleFrom(
@@ -131,8 +134,10 @@ class LoginScreen extends StatelessWidget {
                         ),
                         child: Text(
                           TTextstrings.signUp,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.bold,),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                         ),
                       ),
                     ),
@@ -142,23 +147,24 @@ class LoginScreen extends StatelessWidget {
 
               /// Google sign-in button
               const SizedBox(height: 45.0),
-             
+
               ElevatedButton(
-                onPressed: () {
-                },
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  // Conditional styling based on theme mode
-                  backgroundColor:  Colors.transparent, // Light mode: white background
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 12.0),
+                  backgroundColor:
+                      isDarkMode ? Colors.transparent : Colors.white,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 32.0, vertical: 12.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
+                    side: BorderSide(color: Colors.grey),
                   ),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Image.asset(
-                      TImageStrings.google,  // Path to your Google logo
+                      TImageStrings.google, // Path to your Google logo
                       height: 24.0, // Adjust height as needed
                     ),
                     const SizedBox(width: 8.0), // Space between logo and text

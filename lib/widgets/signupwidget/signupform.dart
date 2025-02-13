@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:myapp/controllers/signup_controller.dart';
+import 'package:myapp/core/utils/constants/colors.dart';
 import 'package:myapp/core/utils/constants/imagestrings.dart';
 import 'package:myapp/core/utils/constants/textstrings.dart';
-import 'package:iconsax/iconsax.dart';
-import 'package:myapp/screens/success.dart';
+import 'package:myapp/core/utils/helpers/helpers.dart';
 
 class SignUpForm extends StatelessWidget {
   const SignUpForm({super.key, required this.isDarkMode});
 
   final bool isDarkMode;
-
   @override
   Widget build(BuildContext context) {
-    return Form(  
+    final controller = Get.put(SignupController());
+    return Form(
+      key: controller.formKey,
       child: Column(
         children: [
           SizedBox(
@@ -20,7 +23,12 @@ class SignUpForm extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: TextField(
+                  child: TextFormField(
+                    controller: controller.userFirstName,
+                    validator: (value) =>
+                        THelper.validateTextFields('firstName', value!),
+                    style: TextStyle(fontSize: 16),
+                    cursorColor: TColors.primaryColor,
                     decoration: const InputDecoration(
                       labelText: TTextstrings.userFirstName,
                       prefixIcon: Icon(Iconsax.user),
@@ -29,7 +37,12 @@ class SignUpForm extends StatelessWidget {
                 ),
                 SizedBox(width: 10),
                 Expanded(
-                  child: TextField(
+                  child: TextFormField(
+                    validator: (value) =>
+                        THelper.validateTextFields('firstName', value!),
+                    controller: controller.userName,
+                    style: TextStyle(fontSize: 16),
+                    cursorColor: TColors.primaryColor,
                     decoration: const InputDecoration(
                       labelText: TTextstrings.userName,
                       prefixIcon: Icon(Iconsax.user),
@@ -40,21 +53,33 @@ class SignUpForm extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 15),
-          TextField(
+          TextFormField(
+            controller: controller.email,
+            validator: (value) => THelper.isValidEmail(value),
+            style: TextStyle(fontSize: 16),
+            cursorColor: TColors.primaryColor,
             decoration: const InputDecoration(
               labelText: TTextstrings.email,
               prefixIcon: Icon(Iconsax.direct),
             ),
           ),
           const SizedBox(height: 15),
-          TextField(
+          TextFormField(
+            controller: controller.phoneNumber,
+            validator: (value) => THelper.formatPhoneNumber(value),
+            style: TextStyle(fontSize: 16),
+            cursorColor: TColors.primaryColor,
             decoration: const InputDecoration(
               labelText: TTextstrings.phoneNumber,
               prefixIcon: Icon(Iconsax.call),
             ),
           ),
           const SizedBox(height: 15),
-          TextField(
+          TextFormField(
+            controller: controller.password,
+            validator: (value) => THelper.validatePassword(value),
+            style: TextStyle(fontSize: 16),
+            cursorColor: TColors.primaryColor,
             obscureText: true,
             decoration: const InputDecoration(
               labelText: TTextstrings.password,
@@ -68,7 +93,7 @@ class SignUpForm extends StatelessWidget {
             height: 50,
             child: ElevatedButton(
               onPressed: () {
-                Get.to(() => Success()); 
+                Get.to(() => controller.signupUser());
               },
               child: Text(
                 TTextstrings.signUp,
@@ -82,11 +107,13 @@ class SignUpForm extends StatelessWidget {
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 12.0),
+              backgroundColor: Colors.transparent,
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 32.0, vertical: 12.0),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
-                side: BorderSide(color: Colors.grey),
+                side: BorderSide(
+                    color: isDarkMode ? Colors.white : Colors.black87),
               ),
             ),
             child: Row(
@@ -98,7 +125,7 @@ class SignUpForm extends StatelessWidget {
                 ),
                 const SizedBox(width: 8.0),
                 Text(
-                  TTextstrings.loginWith,
+                  TTextstrings.signUpWith,
                   style: TextStyle(
                     color: isDarkMode ? Colors.white : Colors.black,
                     fontSize: 16.0,

@@ -8,16 +8,13 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 50,
-            horizontal: 24
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 24),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,  
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               IconButton(
                 onPressed: () {
@@ -26,21 +23,19 @@ class SignUpScreen extends StatelessWidget {
                 icon: const Icon(Icons.arrow_back),
               ),
               const SizedBox(height: 25),
-              
               Text(
                 TTextstrings.appName,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
-              const SizedBox(height: 6.0),
-
+              const SizedBox(height: 5.0),
               Text(
-                TTextstrings.signUp,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.grey[700]),
+                TTextstrings.signUpTitle,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Colors.grey[700], fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 40.0),
-              
               SignUpForm(isDarkMode: isDarkMode)
             ],
           ),
