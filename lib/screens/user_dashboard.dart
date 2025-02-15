@@ -90,7 +90,7 @@ class UserDashboard extends StatelessWidget {
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Text(
-        '200g',
+        '0kg',
         style: Theme.of(context).textTheme.headlineMedium?.copyWith(
           fontSize: 40,
           fontWeight: FontWeight.bold,
@@ -122,7 +122,7 @@ class UserDashboard extends StatelessWidget {
                                   child: Column(
                                     children: [
                                       Text(
-                                        '150',
+                                        '0',
                                         style: Theme.of(context).textTheme.headlineMedium?.copyWith(),
                                       ),
                                       Text(
@@ -142,7 +142,7 @@ class UserDashboard extends StatelessWidget {
                                   child: Column(
                                     children: [
                                       Text(
-                                        '4',
+                                        '0',
                                         style: Theme.of(context).textTheme.headlineMedium?.copyWith(),
                                       ),
                                       Text(

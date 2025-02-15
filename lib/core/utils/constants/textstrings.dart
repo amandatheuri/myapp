@@ -34,6 +34,7 @@ class TTextstrings {
 
   ///authentication -sign up
   static const String userFirstName = "F.Name";
+  static const String userLastName = "L.Name";
   static const String userName = "UserName";
   static const String confirmPassword = "Confirm Password";
   static const String phoneNumber = "Phone Number";
@@ -42,7 +43,7 @@ class TTextstrings {
   ///success
   static const String success = "Account created successfully!";
   static const String successMessage =
-      "Welcome to BinCollect! You can now Schedule waste pickups, earn rewards, and contribute to a cleaner environment.";
+      "Welcome to BinCollect! You can now dispose your waste, earn rewards, and contribute to a cleaner environment.";
 
   ///reset password
   static const String emailSent = "Email sent successfully!";

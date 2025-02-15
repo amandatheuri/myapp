@@ -39,17 +39,29 @@ class SignUpForm extends StatelessWidget {
                 Expanded(
                   child: TextFormField(
                     validator: (value) =>
-                        THelper.validateTextFields('firstName', value!),
+                        THelper.validateTextFields('lastName', value!),
                     controller: controller.userName,
                     style: TextStyle(fontSize: 16),
                     cursorColor: TColors.primaryColor,
                     decoration: const InputDecoration(
-                      labelText: TTextstrings.userName,
+                      labelText: TTextstrings.userLastName,
                       prefixIcon: Icon(Iconsax.user),
                     ),
                   ),
                 ),
               ],
+            ),
+          ),
+          const SizedBox(height: 15),
+           TextFormField(
+            controller: controller.userName,
+            validator: (value) =>
+                        THelper.validateTextFields('lastName', value!),
+            style: TextStyle(fontSize: 16),
+            cursorColor: TColors.primaryColor,
+            decoration: const InputDecoration(
+              labelText: TTextstrings.userName,
+              prefixIcon: Icon(Iconsax.user),
             ),
           ),
           const SizedBox(height: 15),
@@ -66,7 +78,10 @@ class SignUpForm extends StatelessWidget {
           const SizedBox(height: 15),
           TextFormField(
             controller: controller.phoneNumber,
-            validator: (value) => THelper.formatPhoneNumber(value),
+  validator: (value) => THelper.validatePhoneNumber(value), // Checks validity
+  onChanged: (value) {
+    controller.phoneNumber.text = THelper.formatPhoneNumber(value); // Formats to Kenyan format
+  },
             style: TextStyle(fontSize: 16),
             cursorColor: TColors.primaryColor,
             decoration: const InputDecoration(
@@ -75,16 +90,21 @@ class SignUpForm extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 15),
-          TextFormField(
-            controller: controller.password,
-            validator: (value) => THelper.validatePassword(value),
-            style: TextStyle(fontSize: 16),
-            cursorColor: TColors.primaryColor,
-            obscureText: true,
-            decoration: const InputDecoration(
-              labelText: TTextstrings.password,
-              prefixIcon: Icon(Iconsax.lock),
-              suffixIcon: Icon(Iconsax.eye_slash),
+          Obx(()=>
+             TextFormField(
+              controller: controller.password,
+              validator: (value) => THelper.validatePassword(value),
+              style: TextStyle(fontSize: 16),
+              cursorColor: TColors.primaryColor,
+              obscureText: controller.hidePassword.value,
+              decoration: InputDecoration(
+                labelText: TTextstrings.password,
+                prefixIcon: const Icon(Iconsax.lock),
+                suffixIcon: IconButton(
+                  onPressed: () => controller.hidePassword.value = !controller.hidePassword.value,
+                  icon: Icon(controller.hidePassword.value? Iconsax.eye_slash:Iconsax.eye),
+                  ),
+              ),
             ),
           ),
           const SizedBox(height: 30),
@@ -92,9 +112,12 @@ class SignUpForm extends StatelessWidget {
             width: double.infinity,
             height: 50,
             child: ElevatedButton(
-              onPressed: () {
-                Get.to(() => controller.signupUser());
-              },
+             onPressed: () {
+  if (controller.formKey.currentState!.validate()) {
+    controller.signupUser();
+  }
+},
+
               child: Text(
                 TTextstrings.signUp,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(

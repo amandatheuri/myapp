@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:myapp/core/utils/constants/colors.dart';
 import 'package:myapp/core/utils/device/deviceutility.dart';
+import 'package:myapp/repository/auth_repo.dart';
+import 'package:myapp/screens/login.dart';
 import 'package:myapp/screens/wallet.dart';
 import 'package:myapp/widgets/menulist/menulist.dart';
 
@@ -112,7 +114,10 @@ class UserProfile extends StatelessWidget {
               const Divider(color: Colors.grey),
               MenuList(title: 'FAQs', icon: Iconsax.document, onPress:(){}, textColor: Colors.grey[700]),
               MenuList(title: 'Help', icon: Iconsax.message_question, onPress:(){}, textColor: Colors.grey[700]),
-              Center(child: MenuList(title: 'Logout', icon: Iconsax.logout, onPress:(){}, textColor: isDark? Colors.white:Colors.red, endIcon: false)),
+              Center(child: MenuList(title: 'Logout', icon: Iconsax.logout,  onPress: () async {
+      await AuthRepo.instance.signOut();
+      Get.offAll(() => const LoginScreen()); // Navigate to login screen
+    }, textColor: isDark? Colors.white:Colors.red, endIcon: false)),
               
             ],
         ),

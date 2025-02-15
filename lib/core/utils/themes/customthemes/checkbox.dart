@@ -6,12 +6,12 @@ class TCheckBox {
 
   static CheckboxThemeData lightTheme = CheckboxThemeData(
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(8),
-      side: BorderSide(color: TColors.primaryColor, width: 2), 
+      borderRadius: BorderRadius.circular(4),
+      side: BorderSide(color: TColors.primaryColor, width: 2),
     ),
     checkColor: WidgetStateProperty.resolveWith((states) {
       if (states.contains(WidgetState.selected)) {
-        return Colors.black; 
+        return Colors.black;
       } else {
         return Colors.transparent;
       }
@@ -19,25 +19,25 @@ class TCheckBox {
     fillColor: WidgetStateProperty.resolveWith((states) {
       if (states.contains(WidgetState.selected)) {
         return TColors.primaryColor;
-        } else {
-        return Colors.transparent; 
+      } else {
+        return Colors.transparent;
       }
     }),
   );
 
   static CheckboxThemeData darkTheme = CheckboxThemeData(
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(5),
-      side: BorderSide(color: Colors.white, width: 2), 
+      borderRadius: BorderRadius.circular(4),
+      side: BorderSide(color: Colors.white, width: 2),
     ),
     checkColor: WidgetStateProperty.resolveWith((states) {
       return states.contains(WidgetState.selected)
-          ? Colors.white 
+          ? Colors.white
           : Colors.transparent;
     }),
     fillColor: WidgetStateProperty.resolveWith((states) {
       return states.contains(WidgetState.selected)
-          ? TColors.primaryColor 
+          ? TColors.primaryColor
           : Colors.transparent;
     }),
   );

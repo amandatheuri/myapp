@@ -97,7 +97,7 @@ class _RewardStorePageState extends State<RewardsScreen> {
                     SizedBox(height: 10),
                     Text(
                       filteredStores[index],
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
                     ),
                   ],
                 ),

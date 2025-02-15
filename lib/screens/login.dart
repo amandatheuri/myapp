@@ -12,9 +12,9 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  print("✅ LoginScreen is building...");
     // Get the current theme mode
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -28,8 +28,10 @@ class LoginScreen extends StatelessWidget {
                   ),
                   Image(
                     height: 160,
-                    image: AssetImage(TImageStrings.logo),
+                    image: AssetImage('assets/logos/app_logo.png'),
                   ),
+                // Temporary placeholder
+
                   Text(
                     TTextstrings.welcomeBack,
                     style: Theme.of(context).textTheme.headlineMedium,
@@ -47,6 +49,8 @@ class LoginScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     TextFormField(
+                      style: TextStyle(fontSize: 16),
+                      cursorColor: TColors.primaryColor,
                       decoration: InputDecoration(
                         labelText: TTextstrings.email,
                         hintText: TTextstrings.email,
@@ -55,6 +59,8 @@ class LoginScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20.0),
                     TextFormField(
+                      style: TextStyle(fontSize: 16),
+                      cursorColor: TColors.primaryColor,
                       decoration: InputDecoration(
                         labelText: TTextstrings.password,
                         hintText: TTextstrings.password,
@@ -103,7 +109,7 @@ class LoginScreen extends StatelessWidget {
                       height: 50,
                       child: ElevatedButton(
                         onPressed: () {
-                          Get.to(() => NavBar());
+                          Get.offAll(() => NavBar());
                         },
                         child: Text(
                           TTextstrings.login,
