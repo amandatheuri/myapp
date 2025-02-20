@@ -26,7 +26,7 @@ class SignupController extends GetxController{
  void signupUser() async {
   try{
     //start loading
-   //TFullscreenLoader.openLoadingDialog('Processing your information', TImageStrings.onboarding1);
+   TFullscreenLoader.openLoadingDialog('Processing your information...', TImageStrings.loading);
    //network connection
    final isConnected = await NetworkManager.instance.isConnected();
    if(!isConnected){

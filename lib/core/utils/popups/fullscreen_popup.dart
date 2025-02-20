@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/core/utils/device/deviceutility.dart';
 import 'package:myapp/widgets/animationloader/animationloader.dart';
 class TFullscreenLoader{
   
