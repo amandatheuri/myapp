@@ -59,16 +59,23 @@ class THelper {
   // Helper function to format a phone number (e.g., adding country code for Kenyan numbers)
   
   static String formatPhoneNumber(String value) {
+  // Remove any whitespace or dashes (common user input mistakes)
+  value = value.replaceAll(RegExp(r'\s+|-'), '');
+
   if (value.startsWith('0')) {
-    return '+254${value.substring(1)}'; // Converts 07XX to +2547XX
+    return '+254${value.substring(1)}'; // Convert 07XX to +2547XX
   } else if (value.startsWith('+2540')) {
-    return '+254${value.substring(5)}'; // Fixes incorrect +2540 format
+    return '+254${value.substring(5)}'; // Fix incorrect +2540XXX format
   } else if (value.startsWith('+254')) {
-    return value; // Already in correct format
+    return value; // Already correct
+  } else if (value.startsWith('1') || value.startsWith('2')) {
+    // Kenyan landline numbers shouldn't be formatted this way
+    return value;
   } else {
-    return '+254$value'; // Prefixes non-Kenyan numbers with +254
+    return '+254$value'; // Ensure all numbers are Kenyan
   }
 }
+
 
 static String? validatePhoneNumber(String? value) {
   if (value == null || value.isEmpty) {

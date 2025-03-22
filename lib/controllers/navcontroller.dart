@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import 'package:myapp/screens/challenges.dart';
-import 'package:myapp/screens/dispose.dart';
-import 'package:myapp/screens/rewards.dart';
-import 'package:myapp/screens/user_dashboard.dart';
+import 'package:myapp/app_user/screens/challenges.dart';
+import 'package:myapp/app_user/screens/dispose.dart';
+import 'package:myapp/app_user/screens/rewards.dart';
+import 'package:myapp/app_user/screens/user_dashboard.dart';
 
 class NavController extends GetxController{
 

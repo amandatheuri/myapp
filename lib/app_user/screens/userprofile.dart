@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:myapp/app_user/screens/login.dart';
 import 'package:myapp/core/utils/constants/colors.dart';
 import 'package:myapp/core/utils/device/deviceutility.dart';
 import 'package:myapp/repository/auth_repo.dart';
-import 'package:myapp/screens/login.dart';
-import 'package:myapp/screens/wallet.dart';
-import 'package:myapp/widgets/menulist/menulist.dart';
+import 'package:myapp/app_user/screens/wallet.dart';
+import 'package:myapp/app_user/widgets/menulist/menulist.dart';
 
 class UserProfile extends StatelessWidget {
   const UserProfile({super.key});

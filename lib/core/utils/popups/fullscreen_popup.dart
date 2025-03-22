@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/widgets/animationloader/animationloader.dart';
+import 'package:myapp/app_user/widgets/animationloader/animationloader.dart';
 class TFullscreenLoader{
   
   static void openLoadingDialog (String text, String animation){
@@ -9,11 +9,13 @@ class TFullscreenLoader{
       child: Container(
         width: double.infinity,
         height: double.infinity,
-        color: Colors.white,
-        child:Column(children: [
-          const SizedBox(height: 250),
-          TAnimatedLoader(animation: animation, text: text)
-        ],)
+        color: Colors.transparent,
+        child:SingleChildScrollView(
+          child: Column(children: [
+            const SizedBox(height: 250),
+            TAnimatedLoader(animation: animation, text: text)
+          ],),
+        )
       ) 
       ));
   }

@@ -6,7 +6,7 @@ import 'package:myapp/core/utils/constants/imagestrings.dart';
 import 'package:myapp/core/utils/constants/textstrings.dart';
 import 'package:myapp/core/utils/device/deviceutility.dart';
 import 'package:myapp/navigation_bar.dart';
-import 'package:myapp/screens/forgot_password.dart';
+import 'package:myapp/app_user/screens/forgot_password.dart';
 
 class ResetPassword extends StatelessWidget {
   const ResetPassword({super.key});

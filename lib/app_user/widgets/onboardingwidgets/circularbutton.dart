@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:myapp/controllers/onboardingcontroller.dart';
-import '../../core/utils/constants/colors.dart';
-import '../../core/utils/device/deviceutility.dart';
+import 'package:myapp/core/utils/constants/colors.dart';
+import 'package:myapp/core/utils/device/deviceutility.dart';
 
 class CircularButton extends StatelessWidget {
   const CircularButton({

@@ -6,6 +6,8 @@ import 'package:myapp/core/utils/constants/colors.dart';
 import 'package:myapp/core/utils/constants/imagestrings.dart';
 import 'package:myapp/core/utils/constants/textstrings.dart';
 import 'package:myapp/core/utils/helpers/helpers.dart';
+import 'package:flutter/services.dart';
+import 'package:myapp/waste_collector/screens/collector_dashboard.dart';
 
 class SignUpForm extends StatelessWidget {
   const SignUpForm({super.key, required this.isDarkMode});
@@ -53,10 +55,10 @@ class SignUpForm extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 15),
-           TextFormField(
+          TextFormField(
             controller: controller.userName,
             validator: (value) =>
-                        THelper.validateTextFields('lastName', value!),
+                THelper.validateTextFields('lastName', value!),
             style: TextStyle(fontSize: 16),
             cursorColor: TColors.primaryColor,
             decoration: const InputDecoration(
@@ -78,10 +80,15 @@ class SignUpForm extends StatelessWidget {
           const SizedBox(height: 15),
           TextFormField(
             controller: controller.phoneNumber,
-  validator: (value) => THelper.validatePhoneNumber(value), // Checks validity
-  onChanged: (value) {
-    controller.phoneNumber.text = THelper.formatPhoneNumber(value); // Formats to Kenyan format
-  },
+            keyboardType: TextInputType.phone,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            validator: (value) => THelper.validatePhoneNumber(value),
+            onChanged: (value) {
+              controller.phoneNumber.value = controller.phoneNumber.value.copyWith(
+                text: THelper.formatPhoneNumber(value),
+                selection: TextSelection.collapsed(offset: THelper.formatPhoneNumber(value).length),
+              );
+            },
             style: TextStyle(fontSize: 16),
             cursorColor: TColors.primaryColor,
             decoration: const InputDecoration(
@@ -90,34 +97,32 @@ class SignUpForm extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 15),
-          Obx(()=>
-             TextFormField(
-              controller: controller.password,
-              validator: (value) => THelper.validatePassword(value),
-              style: TextStyle(fontSize: 16),
-              cursorColor: TColors.primaryColor,
-              obscureText: controller.hidePassword.value,
-              decoration: InputDecoration(
-                labelText: TTextstrings.password,
-                prefixIcon: const Icon(Iconsax.lock),
-                suffixIcon: IconButton(
-                  onPressed: () => controller.hidePassword.value = !controller.hidePassword.value,
-                  icon: Icon(controller.hidePassword.value? Iconsax.eye_slash:Iconsax.eye),
+          Obx(() => TextFormField(
+                controller: controller.password,
+                validator: (value) => THelper.validatePassword(value),
+                style: TextStyle(fontSize: 16),
+                cursorColor: TColors.primaryColor,
+                obscureText: controller.hidePassword.value,
+                decoration: InputDecoration(
+                  labelText: TTextstrings.password,
+                  prefixIcon: const Icon(Iconsax.lock),
+                  suffixIcon: IconButton(
+                    onPressed: () => controller.hidePassword.value = !controller.hidePassword.value,
+                    icon: Icon(controller.hidePassword.value ? Iconsax.eye_slash : Iconsax.eye),
                   ),
+                ),
               ),
-            ),
           ),
           const SizedBox(height: 30),
           SizedBox(
             width: double.infinity,
             height: 50,
             child: ElevatedButton(
-             onPressed: () {
-  if (controller.formKey.currentState!.validate()) {
-    controller.signupUser();
-  }
-},
-
+              onPressed: () {
+                if (controller.formKey.currentState!.validate()) {
+                  controller.signupUser();
+                }
+              },
               child: Text(
                 TTextstrings.signUp,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -127,16 +132,17 @@ class SignUpForm extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
+          // Google Sign-In button
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              controller.signInWithGoogle(); 
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.transparent,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 32.0, vertical: 12.0),
+              padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 12.0),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
-                side: BorderSide(
-                    color: isDarkMode ? Colors.white : Colors.black87),
+                side: BorderSide(color: isDarkMode ? Colors.white : Colors.black87),
               ),
             ),
             child: Row(
@@ -158,6 +164,10 @@ class SignUpForm extends StatelessWidget {
               ],
             ),
           ),
+          SizedBox(height: 10),
+          ElevatedButton(onPressed:(){Get.to(()=>WasteCollectorDashboard());}, child: Text('Collector', style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),),)
         ],
       ),
     );

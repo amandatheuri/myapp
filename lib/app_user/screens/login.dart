@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myapp/app_user/screens/sign_up.dart';
+import 'package:myapp/controllers/auth_controller.dart';
 import 'package:myapp/core/utils/constants/colors.dart';
 import 'package:myapp/core/utils/constants/imagestrings.dart';
 import 'package:myapp/core/utils/constants/textstrings.dart';
-import 'package:myapp/navigation_bar.dart';
-import 'package:myapp/screens/forgot_password.dart';
-import 'package:myapp/screens/sign_up.dart';
+import 'package:myapp/app_user/screens/forgot_password.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-  print("✅ LoginScreen is building...");
     // Get the current theme mode
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    // Initialize AuthController
+    final AuthController authController = Get.put(AuthController());
+
+    // Controllers for email and password
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -30,7 +37,7 @@ class LoginScreen extends StatelessWidget {
                     height: 160,
                     image: AssetImage('assets/logos/app_logo.png'),
                   ),
-                // Temporary placeholder
+                  // Temporary placeholder
 
                   Text(
                     TTextstrings.welcomeBack,
@@ -49,6 +56,7 @@ class LoginScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     TextFormField(
+                      controller: emailController,
                       style: TextStyle(fontSize: 16),
                       cursorColor: TColors.primaryColor,
                       decoration: InputDecoration(
@@ -59,6 +67,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20.0),
                     TextFormField(
+                      controller: passwordController,
                       style: TextStyle(fontSize: 16),
                       cursorColor: TColors.primaryColor,
                       decoration: InputDecoration(
@@ -108,8 +117,22 @@ class LoginScreen extends StatelessWidget {
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {
-                          Get.offAll(() => NavBar());
+                        onPressed: () async {
+                          final String email = emailController.text.trim();
+                          final String password = passwordController.text.trim();
+
+                          if (email.isEmpty || password.isEmpty) {
+                            // Show an error message if fields are empty
+                            Get.snackbar(
+                              "Error",
+                              "Please enter your email and password",
+                              snackPosition: SnackPosition.BOTTOM,
+                            );
+                            return;
+                          }
+
+                          // Call the login method from AuthController
+                          authController.login(email, password);
                         },
                         child: Text(
                           TTextstrings.login,
@@ -127,11 +150,7 @@ class LoginScreen extends StatelessWidget {
                       child: OutlinedButton(
                         onPressed: () {
                           // Navigate to sign-up screen
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SignUpScreen()),
-                          );
+                          Get.to(() => SignUpScreen());
                         },
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(
@@ -155,7 +174,9 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 45.0),
 
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                   authController.signInWithGoogle();
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor:
                       isDarkMode ? Colors.transparent : Colors.white,
