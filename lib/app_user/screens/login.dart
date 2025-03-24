@@ -6,17 +6,20 @@ import 'package:myapp/core/utils/constants/colors.dart';
 import 'package:myapp/core/utils/constants/imagestrings.dart';
 import 'package:myapp/core/utils/constants/textstrings.dart';
 import 'package:myapp/app_user/screens/forgot_password.dart';
+import 'package:myapp/waste_collector/controllers/waste_controller.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    
     // Get the current theme mode
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     // Initialize AuthController
     final AuthController authController = Get.put(AuthController());
+    final WasteController wasteController = Get.put(WasteController());
 
     // Controllers for email and password
     final TextEditingController emailController = TextEditingController();

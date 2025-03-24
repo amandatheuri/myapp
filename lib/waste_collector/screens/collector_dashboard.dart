@@ -4,8 +4,11 @@ import 'package:myapp/waste_collector/screens/reports.dart';
 import 'package:myapp/waste_collector/screens/settings.dart';
 
 class WasteCollectorDashboard extends StatefulWidget {
+  const WasteCollectorDashboard({super.key});
+
   @override
-  _WasteCollectorDashboardState createState() => _WasteCollectorDashboardState();
+  _WasteCollectorDashboardState createState() =>
+      _WasteCollectorDashboardState();
 }
 
 class _WasteCollectorDashboardState extends State<WasteCollectorDashboard> {
@@ -13,7 +16,7 @@ class _WasteCollectorDashboardState extends State<WasteCollectorDashboard> {
 
   final List<Widget> _screens = [
     HomeScreen(),
-    ReportsScreen(),
+    WasteCollectorReportsPage(),
     SettingsScreen(),
   ];
 
@@ -41,8 +44,10 @@ class _WasteCollectorDashboardState extends State<WasteCollectorDashboard> {
         },
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Reports'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.bar_chart), label: 'Reports'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings), label: 'Settings'),
         ],
       ),
     );

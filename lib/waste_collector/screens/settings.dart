@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 
-class SettingsScreen extends StatefulWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Waste Collector Dashboard'),
-      ));
-}
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    throw UnimplementedError();
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text('Settings Screen'),
+    );
   }
 }

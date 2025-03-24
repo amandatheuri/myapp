@@ -40,15 +40,15 @@ class UserModel {
    static UserModel empty()=> UserModel(uid:'',firstName:'',lastName:'',userName:'',email:'',phoneNumber:'',profileSticker:'',token: 0, wasteCollected: 0.0);
   Map<String, dynamic> toMap() {
     return {
-      "uid": uid,
+      "email": email,
       "firstName": firstName,
       "lastName": lastName,
-      "userName": userName,
-      "email": email,
       "phoneNumber": phoneNumber,
-      "wasteCollected": wasteCollected,
-      "token": token,
       "profileSticker": profileSticker ?? "", 
+      "token": token,
+      "uid": uid,
+      "userName": userName,
+      "wasteCollected": wasteCollected,
     };
   }
 

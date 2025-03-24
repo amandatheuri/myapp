@@ -19,6 +19,8 @@ dependencies:
   smooth_page_indicator: ^1.2.0+3
   lottie: ^3.3.1
   connectivity_plus: ^5.0.1
+  fl_chart: ^0.70.2
+  syncfusion_flutter_charts: ^28.2.12
   
   # Icons
   cupertino_icons: ^1.0.8

@@ -10,7 +10,7 @@ class NavController extends GetxController{
  final screens = [
   UserDashboard(),
   RewardsScreen(),
-  DisposeScreen(),
+  DisposePage(),
   ChallengesScreen()
  ];
 

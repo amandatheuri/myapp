@@ -5,8 +5,10 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:myapp/controllers/auth_controller.dart';
+import 'package:myapp/controllers/token_controller.dart';
 import 'package:myapp/repository/auth_repo.dart'; 
 import 'package:myapp/firebase_options.dart';
+import 'package:myapp/waste_collector/controllers/waste_controller.dart';
 import 'app.dart';
 
 void main() async {
@@ -17,6 +19,8 @@ void main() async {
 
   Get.put(AuthRepo());  
   Get.put(AuthController());
+  Get.put(WasteController());
+  Get.put(TokenController());
 
   final bool isDarkMode = WidgetsBinding.instance.window.platformBrightness == Brightness.dark;
 

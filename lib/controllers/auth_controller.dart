@@ -2,20 +2,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:myapp/app_user/screens/login.dart';
 import 'package:myapp/app_user/screens/onboarding.dart';
 import 'package:myapp/models/usermodel.dart';
 import 'package:myapp/navigation_bar.dart';
 import 'package:myapp/repository/auth_repo.dart';
 import 'package:myapp/repository/user_repo.dart';
-import 'package:myapp/app_user/screens/login.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
   final AuthRepo _authRepo = Get.find<AuthRepo>();
   final deviceStorage = GetStorage();
 
-  // Reactive variable for user's name
+  // Reactive variables for user's name and email
   final userName = RxString('');
+  final userEmail = RxString('');
 
   // Get current user
   User? get currentUser => _authRepo.currentUser;
@@ -25,6 +26,7 @@ class AuthController extends GetxController {
     super.onReady();
     FlutterNativeSplash.remove();
     screenRedirect();
+    fetchUserEmail(); // Fetch the user's email when the app starts
   }
 
   // ✅ Screen redirection logic (Onboarding -> Login -> Home)
@@ -41,6 +43,15 @@ class AuthController extends GetxController {
     }
   }
 
+  // ✅ Fetch the user's email
+  void fetchUserEmail() {
+    final User? user = _authRepo.currentUser;
+    if (user != null) {
+      userEmail.value = user.email ?? ''; // Set the user's email
+      print('Fetched User Email: ${userEmail.value}');
+    }
+  }
+
   // ✅ Login method
   void login(String email, String password) async {
     var user = await _authRepo.signInWithEmailAndPassword(email, password);
@@ -49,7 +60,8 @@ class AuthController extends GetxController {
       if (currentUser != null) {
         // Use the displayName (username) or fall back to email
         userName.value = currentUser.displayName ?? currentUser.email ?? 'User';
-        print('Login: userName = ${userName.value}');
+        userEmail.value = currentUser.email ?? ''; // Set the user's email
+        print('Login: userName = ${userName.value}, userEmail = ${userEmail.value}');
       }
       Get.offAll(() => NavBar());
     } else {
@@ -73,12 +85,13 @@ class AuthController extends GetxController {
     if (user != null) {
       await updateUserProfile(username); // Set the display name to the username
       userName.value = username; // Update the userName in AuthController
-      print('Sign-Up: userName = ${userName.value}'); // Debug statement
+      userEmail.value = email; // Set the user's email
+      print('Sign-Up: userName = ${userName.value}, userEmail = ${userEmail.value}'); // Debug statement
       Get.offAll(() => NavBar());
     }
   }
 
-//✅ Update user profile
+  // ✅ Update user profile
   Future<void> updateUserProfile(String displayName) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
@@ -88,7 +101,7 @@ class AuthController extends GetxController {
     }
   }
 
-//✅ Google Sign-In method
+  // ✅ Google Sign-In method
   void signInWithGoogle() async {
     var userCredential = await _authRepo.signInWithGoogle();
     if (userCredential != null) {
@@ -96,7 +109,8 @@ class AuthController extends GetxController {
       if (user != null) {
         // Use the displayName (from Google) or fall back to email
         userName.value = user.displayName ?? user.email ?? 'User';
-        print('Google Sign-In: userName = ${userName.value}');
+        userEmail.value = user.email ?? ''; // Set the user's email
+        print('Google Sign-In: userName = ${userName.value}, userEmail = ${userEmail.value}');
 
         // Check if the user is new (first-time sign-in)
         if (userCredential.additionalUserInfo?.isNewUser ?? false) {
@@ -130,9 +144,11 @@ class AuthController extends GetxController {
     }
   }
 
+  // ✅ Logout method
   void logout() async {
     await _authRepo.signOut();
     userName.value = ''; // Clear the userName
+    userEmail.value = ''; // Clear the userEmail
     Get.offAll(() => LoginScreen());
   }
 }

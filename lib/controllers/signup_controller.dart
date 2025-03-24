@@ -52,15 +52,15 @@ class SignupController extends GetxController {
           if (userCredential.additionalUserInfo?.isNewUser ?? false) {
             // Save user data to Firestore
             final newUser = UserModel(
-              uid: user.uid,
+              email: user.email ?? "",
               firstName: user.displayName?.split(" ").first ?? "",
               lastName: user.displayName?.split(" ").last ?? "",
-              userName: user.email?.split("@").first ?? "",
-              email: user.email ?? "",
               phoneNumber: user.phoneNumber ?? "",
-              token: 0, // Default token balance
-              wasteCollected: 0.0, // Default waste collected
               profileSticker: user.photoURL, // Use Google profile picture
+              token: 0, // Default token balance
+              uid: user.uid,
+              userName: user.email?.split("@").first ?? "",
+              wasteCollected: 0.0, // Default waste collected
             );
 
             // Save user to Firestore
@@ -116,15 +116,15 @@ class SignupController extends GetxController {
 
       // Store user in Firestore
       final newUser = UserModel(
-        uid: userCredential?.user?.uid ?? '',
+        email: email.text.trim(),
         firstName: userFirstName.text.trim(),
         lastName: userLastName.text.trim(),
-        userName: userName.text.trim(),
-        email: email.text.trim(),
         phoneNumber: phoneNumber.text.trim(),
-        token: 0,
-        wasteCollected: 0.0,
         profileSticker: null,
+        token: 0,
+        uid: userCredential?.user?.uid ?? '',
+        userName: userName.text.trim(),
+        wasteCollected: 0.0,
       );
 
       final userRepo = Get.put(UserRepo());
