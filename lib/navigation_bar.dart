@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:myapp/controllers/navcontroller.dart';
+import 'package:myapp/community_participant/controllers/navcontroller.dart';
 import 'package:myapp/core/utils/constants/colors.dart';
 
 class NavBar extends StatelessWidget {

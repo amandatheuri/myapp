@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:myapp/controllers/signup_controller.dart';
+import 'package:myapp/community_participant/controllers/signup_controller.dart';
 import 'package:myapp/core/utils/constants/colors.dart';
 import 'package:myapp/core/utils/constants/imagestrings.dart';
 import 'package:myapp/core/utils/constants/textstrings.dart';

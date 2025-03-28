@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:myapp/app_user/screens/login.dart';
+import 'package:myapp/community_participant/screens/login.dart';
 
 class OnboardingController extends GetxController {
   static OnboardingController get instance => Get.find();

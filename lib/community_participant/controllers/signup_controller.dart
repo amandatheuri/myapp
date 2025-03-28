@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/app_user/screens/success.dart';
+import 'package:myapp/community_participant/screens/success.dart';
 import 'package:myapp/core/utils/constants/imagestrings.dart';
 import 'package:myapp/core/utils/helpers/network_manager.dart';
 import 'package:myapp/core/utils/loaders/TLoaders.dart';

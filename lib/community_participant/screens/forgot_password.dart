@@ -3,7 +3,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:myapp/core/utils/constants/textstrings.dart';
-import 'package:myapp/app_user/screens/reset_password.dart';
+import 'package:myapp/community_participant/screens/reset_password.dart';
 
 class ForgotPassword extends StatelessWidget {
   const ForgotPassword({super.key});

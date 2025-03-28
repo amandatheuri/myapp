@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/app_user/screens/sign_up.dart';
-import 'package:myapp/controllers/auth_controller.dart';
+import 'package:myapp/community_participant/controllers/auth_controller.dart';
+import 'package:myapp/community_participant/screens/sign_up.dart';
 import 'package:myapp/core/utils/constants/colors.dart';
 import 'package:myapp/core/utils/constants/imagestrings.dart';
 import 'package:myapp/core/utils/constants/textstrings.dart';
-import 'package:myapp/app_user/screens/forgot_password.dart';
+import 'package:myapp/community_participant/screens/forgot_password.dart';
 import 'package:myapp/waste_collector/controllers/waste_controller.dart';
 
 class LoginScreen extends StatelessWidget {

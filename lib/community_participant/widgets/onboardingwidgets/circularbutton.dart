@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:myapp/controllers/onboardingcontroller.dart';
+import 'package:myapp/community_participant/controllers/onboardingcontroller.dart';
 import 'package:myapp/core/utils/constants/colors.dart';
 import 'package:myapp/core/utils/device/deviceutility.dart';
 

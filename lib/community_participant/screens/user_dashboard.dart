@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:myapp/app_user/screens/userprofile.dart';
-import 'package:myapp/controllers/auth_controller.dart';
-import 'package:myapp/controllers/token_controller.dart';
+import 'package:myapp/community_participant/controllers/auth_controller.dart';
+import 'package:myapp/community_participant/controllers/token_controller.dart';
+import 'package:myapp/community_participant/screens/userprofile.dart';
 import 'package:myapp/core/utils/constants/colors.dart';
 import 'package:myapp/core/utils/device/deviceutility.dart';
 import 'package:myapp/waste_collector/controllers/waste_controller.dart';
@@ -305,25 +305,7 @@ class UserDashboard extends StatelessWidget {
                         ),
                       );
                     }),
-                    Container(
-                      width: TDevice.getScreenWidth(context),
-                      height: TDevice.getScreenHeight(context) * 0.2,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: Colors.grey[700]!),
-                      ),
-                      child: Column(
-                        children: [
-                          SizedBox(height: 20),
-                          Icon(Iconsax.map, size: 50),
-                          SizedBox(height: 5),
-                          Text(
-                            'To be continued...',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                        ],
-                      ),
-                    ),
+                    
                   ],
                 ),
               ),

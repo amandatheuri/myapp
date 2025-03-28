@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/app_user/widgets/animationloader/animationloader.dart';
+import 'package:myapp/community_participant/widgets/animationloader/animationloader.dart';
 class TFullscreenLoader{
   
   static void openLoadingDialog (String text, String animation){

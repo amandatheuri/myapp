@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:get/get.dart';
-import 'package:myapp/controllers/token_controller.dart'; // Import your TokenController
+import 'package:myapp/community_participant/controllers/token_controller.dart';
 
 class RewardsScreen extends StatefulWidget {
   const RewardsScreen({super.key});

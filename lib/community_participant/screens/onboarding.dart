@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/controllers/onboardingcontroller.dart';
+import 'package:myapp/community_participant/controllers/onboardingcontroller.dart';
 import 'package:myapp/core/utils/constants/imagestrings.dart';
 import 'package:myapp/core/utils/constants/textstrings.dart';
-import 'package:myapp/app_user/widgets/onboardingwidgets/onboardingpages.dart';
-import 'package:myapp/app_user/widgets/onboardingwidgets/pageindicator.dart';
-import 'package:myapp/app_user/widgets/onboardingwidgets/skipbutton.dart';
+import 'package:myapp/community_participant/widgets/onboardingwidgets/onboardingpages.dart';
+import 'package:myapp/community_participant/widgets/onboardingwidgets/pageindicator.dart';
+import 'package:myapp/community_participant/widgets/onboardingwidgets/skipbutton.dart';
 import '../widgets/onboardingwidgets/circularbutton.dart';
 
 class OnboardingScreen extends StatelessWidget {

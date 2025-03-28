@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/controllers/waste_report_controller.dart';
+import 'package:myapp/community_participant/controllers/waste_report_controller.dart';
 
 class WasteCategoryReport extends StatelessWidget {
   final String userEmail;
