@@ -8,6 +8,10 @@ class OnboardingController extends GetxController {
 
   Rx<int> currentIndex = 0.obs;
   final PageController pageController = PageController();
+  final storage = GetStorage();
+   
+  /// Returns true if onboarding was completed before
+  bool get onboardingCompleted => storage.read('isFirstTime') == false;
 
   // Update current page when user swipes
   void updateCurrentPage(int index) {
@@ -17,7 +21,6 @@ class OnboardingController extends GetxController {
   // Move to the next page
   void nextPage() {
     if (currentIndex.value == 2) {
-      final storage = GetStorage();
       storage.write('isFirstTime', false);
       Get.to(() => LoginScreen());
     } else {
@@ -32,10 +35,8 @@ class OnboardingController extends GetxController {
 
   // Skip to the last page and navigate to login
   void skipPage() {
-    pageController.jumpToPage(2);
-    Future.delayed(Duration(milliseconds: 500), () {
-      Get.to(() => LoginScreen());
-    });
+    storage.write('isFirstTime', false);
+    Get.to(() => LoginScreen());
   }
 
   @override

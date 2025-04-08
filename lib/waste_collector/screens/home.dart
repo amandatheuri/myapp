@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
           plasticAmount: plasticAmount,
           glassAmount: glassAmount,
           paperAmount: paperAmount,
-          totalAmount: totalAmount,
+          totalAmount: totalAmount, wasteTypes: {},
         );
 
         // Close the loading indicator
@@ -244,8 +244,6 @@ Widget _buildCategoryField(String label, double amount, Function(double) onChang
             decoration: InputDecoration(
               labelText: 'Amount (kg)',
               border: OutlineInputBorder(),
-              // Don't use enabled property as it prevents interaction
-              // Provide a hint instead
               hintText: amount > 0 ? null : 'Check to enable',
             ),
             keyboardType: TextInputType.numberWithOptions(decimal: true),
@@ -253,7 +251,6 @@ Widget _buildCategoryField(String label, double amount, Function(double) onChang
               final newAmount = double.tryParse(value) ?? 0;
               onChanged(newAmount);
             },
-            // Allow input even if checkbox is not checked
           ),
         ),
       ],

@@ -7,7 +7,6 @@ import 'package:myapp/core/utils/constants/imagestrings.dart';
 import 'package:myapp/core/utils/constants/textstrings.dart';
 import 'package:myapp/core/utils/helpers/helpers.dart';
 import 'package:flutter/services.dart';
-import 'package:myapp/waste_collector/screens/collector_dashboard.dart';
 
 class SignUpForm extends StatelessWidget {
   const SignUpForm({super.key, required this.isDarkMode});
@@ -164,10 +163,7 @@ class SignUpForm extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 10),
-          ElevatedButton(onPressed:(){Get.to(()=>WasteCollectorDashboard());}, child: Text('Collector', style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),),)
+          
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myapp/admins_authentication/admin_selection.dart';
 import 'package:myapp/community_participant/controllers/auth_controller.dart';
 import 'package:myapp/community_participant/screens/sign_up.dart';
 import 'package:myapp/core/utils/constants/colors.dart';
@@ -210,6 +211,10 @@ class LoginScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(height:10),
+              ElevatedButton(onPressed:(){Get.to(()=>RoleSelectionScreen());}, child: Text('Admin', style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),),)
             ],
           ),
         ),

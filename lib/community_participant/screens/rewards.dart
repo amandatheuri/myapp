@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:get/get.dart';
@@ -13,19 +14,24 @@ class RewardsScreen extends StatefulWidget {
 class _RewardStorePageState extends State<RewardsScreen> {
   bool _isSearching = false;
   final TextEditingController _searchController = TextEditingController();
-  final List<String> stores = [
-    "Safaricom",
-    "Green Grocers",
-    "Recycle Hub",
-    "Sustainable Living",
-    "EcoWear",
-  ];
+  final List<String> stores = []; // Now loaded from Firestore
   List<String> filteredStores = [];
+  final TokenController tokenController = Get.find();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
     super.initState();
-    filteredStores = stores;
+    _loadStores();
+  }
+
+  Future<void> _loadStores() async {
+    final snapshot = await _firestore.collection('reward_stores').get();
+    setState(() {
+      stores.clear();
+      stores.addAll(snapshot.docs.map((doc) => doc['name'] as String));
+      filteredStores = List.from(stores);
+    });
   }
 
   void _filterStores(String query) {
@@ -50,62 +56,85 @@ class _RewardStorePageState extends State<RewardsScreen> {
                 ),
                 onChanged: _filterStores,
               )
-            : Text("Rewards Store"),
+            : Obx(() => Row(
+                  children: [
+                    Text("Rewards Store"),
+                    Spacer(),
+                    Chip(
+                      label: Text(
+                        "${tokenController.tokenBalance.value} Tokens",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      backgroundColor: Colors.green,
+                    ),
+                  ],
+                )),
         actions: [
-          IconButton(
-            icon: Icon(_isSearching ? Icons.close : Iconsax.search_normal),
-            onPressed: () {
-              setState(() {
-                _isSearching = !_isSearching;
-                if (!_isSearching) {
+          if (!_isSearching)
+            IconButton(
+              icon: Icon(Iconsax.search_normal),
+              onPressed: () {
+                setState(() {
+                  _isSearching = true;
+                });
+              },
+            )
+          else
+            IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () {
+                setState(() {
+                  _isSearching = false;
                   _searchController.clear();
-                  filteredStores = stores;
-                }
-              });
-            },
-          )
+                  filteredStores = List.from(stores);
+                });
+              },
+            ),
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
-            childAspectRatio: 0.8,
-          ),
-          itemCount: filteredStores.length,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () => Get.to(StorePage(storeName: filteredStores[index])),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      blurRadius: 6,
-                      spreadRadius: 2,
-                    )
-                  ],
+        child: stores.isEmpty
+            ? Center(child: CircularProgressIndicator())
+            : GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  childAspectRatio: 0.8,
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Iconsax.shop, size: 50, color: Colors.green),
-                    SizedBox(height: 10),
-                    Text(
-                      filteredStores[index],
-                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                itemCount: filteredStores.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () => Get.to(StorePage(storeName: filteredStores[index])),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            blurRadius: 6,
+                            spreadRadius: 2,
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Iconsax.shop, size: 50, color: Colors.green),
+                          SizedBox(height: 10),
+                          Text(
+                            filteredStores[index],
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, color: Colors.black),
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
-            );
-          },
-        ),
       ),
     );
   }
@@ -115,47 +144,48 @@ class StorePage extends StatelessWidget {
   final String storeName;
   const StorePage({required this.storeName, super.key});
 
+  Future<void> _redeemProduct(Map<String, dynamic> product, TokenController tokenController) async {
+    if (tokenController.tokenBalance.value >= product['tokens']) {
+      final success = await tokenController.deductTokens(product['tokens']);
+      if (success) {
+        Get.snackbar(
+          "Success",
+          "You redeemed ${product['name']}",
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+      }
+    } else {
+      Get.snackbar(
+        "Error",
+        "Not enough tokens",
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final TokenController tokenController = Get.find();
-
-    // Example products for each store
-    final Map<String, List<Map<String, dynamic>>> storeProducts = {
-      "Safaricom": [
-        {"name": "100 MB Data", "tokens": 50},
-        {"name": "500 MB Data", "tokens": 100},
-        {"name": "1 GB Data", "tokens": 200},
-      ],
-      "Green Grocers": [
-        {"name": "Organic Vegetables", "tokens": 150},
-        {"name": "Fresh Fruits", "tokens": 100},
-        {"name": "Eco-Friendly Bag", "tokens": 50},
-      ],
-      "Recycle Hub": [
-        {"name": "Reusable Water Bottle", "tokens": 200},
-        {"name": "Recycled Notebook", "tokens": 100},
-        {"name": "Eco Tote Bag", "tokens": 150},
-      ],
-      "Sustainable Living": [
-        {"name": "Bamboo Toothbrush", "tokens": 50},
-        {"name": "Reusable Straw Set", "tokens": 100},
-        {"name": "Solar Charger", "tokens": 300},
-      ],
-      "EcoWear": [
-        {"name": "Organic Cotton T-Shirt", "tokens": 250},
-        {"name": "Recycled Jeans", "tokens": 400},
-        {"name": "Eco-Friendly Sneakers", "tokens": 500},
-      ],
-    };
-
-    final List<Map<String, dynamic>> products = storeProducts[storeName] ?? [];
+    final tokenController = Get.find<TokenController>();
 
     return Scaffold(
       appBar: AppBar(title: Text(storeName)),
-      body: Column(
-        children: [
-          // Display user's token balance
-          Obx(() => Container(
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('reward_stores')
+            .where('name', isEqualTo: storeName)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+          if (snapshot.data!.docs.isEmpty) return Center(child: Text('Store not found'));
+          
+          final storeData = snapshot.data!.docs.first.data() as Map<String, dynamic>;
+          final products = storeData['products'] as List<dynamic>? ?? [];
+          
+          return Column(
+            children: [
+              Obx(() => Container(
                 padding: EdgeInsets.all(16),
                 margin: EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -165,57 +195,41 @@ class StorePage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Your Tokens:",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "${tokenController.tokenBalance.value}",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green),
-                    ),
+                    Text("Your Tokens:", style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text("${tokenController.tokenBalance.value}", 
+                        style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
                   ],
                 ),
               )),
-          // List of products
-          Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.all(16),
-              itemCount: products.length,
-              itemBuilder: (context, index) {
-                final product = products[index];
-                return Card(
-                  margin: EdgeInsets.only(bottom: 16),
-                  child: ListTile(
-                    title: Text(product["name"]),
-                    subtitle: Text("${product["tokens"]} tokens"),
-                    trailing: ElevatedButton(
-                      onPressed: () {
-                        // Redeem product
-                        if (tokenController.tokenBalance.value >= product["tokens"]) {
-                          tokenController.deductTokens(product["tokens"]);
-                          Get.snackbar(
-                            "Success",
-                            "You have redeemed ${product["name"]}",
-                            backgroundColor: Colors.green,
-                            colorText: Colors.white,
-                          );
-                        } else {
-                          Get.snackbar(
-                            "Error",
-                            "Not enough tokens to redeem ${product["name"]}",
-                            backgroundColor: Colors.red,
-                            colorText: Colors.white,
-                          );
-                        }
-                      },
-                      child: Text("Redeem"),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
+              Expanded(
+                child: ListView.builder(
+                  padding: EdgeInsets.all(16),
+                  itemCount: products.length,
+                  itemBuilder: (context, index) {
+                    final product = products[index] as Map<String, dynamic>;
+                    return Obx(() => Card(
+                      margin: EdgeInsets.only(bottom: 16),
+                      child: ListTile(
+                        leading: Icon(Icons.shopping_bag, color: Colors.green),
+                        title: Text(product['name']),
+                        subtitle: Text("${product['tokens']} tokens"),
+                        trailing: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: tokenController.tokenBalance.value >= product['tokens']
+                                ? Colors.green
+                                : Colors.grey,
+                          ),
+                          onPressed: () => _redeemProduct(product, tokenController),
+                          child: Text("Redeem", style: TextStyle(color: Colors.white)),
+                        ),
+                      ),
+                    ));
+                  },
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

@@ -1,34 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get.dart';
 import 'package:myapp/bindings/general_bindings.dart';
-import 'package:myapp/core/utils/constants/colors.dart';
-import 'package:myapp/core/utils/device/deviceutility.dart';
-import 'package:myapp/core/utils/themes/theme.dart';
+import 'package:myapp/community_participant/controllers/onboardingcontroller.dart';
+import 'package:myapp/community_participant/screens/login.dart';
+import 'package:myapp/community_participant/screens/onboarding.dart';
+import 'package:myapp/community_participant/screens/user_dashboard.dart';
+import 'package:myapp/admins_authentication/admin_service/adminauth_service.dart';
 
 class MyApp extends StatelessWidget {
-  //final bool onboardingComplete;
-  //final bool isLoggedIn;
-
-  // Constructor to receive onboardingComplete and isLoggedIn flags
-  const MyApp({
-    super.key,
-    //required this.onboardingComplete,
-    //required this.isLoggedIn,
-});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final bool isDark = TDevice.isDarkMode(context);
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.system,
-      theme: TAppTheme.lightTheme,
-      darkTheme: TAppTheme.darkTheme,
+      title: 'Waste Management System',
       initialBinding: GeneralBindings(),
-      home: Scaffold(backgroundColor: isDark? Colors.black:Colors.white ,body: Center(child: CircularProgressIndicator(color: TColors.primaryColor))),
-      //onboardingComplete
-          //? (isLoggedIn ? custom.NavBar() : LoginScreen())
-          //: OnboardingScreen(),  
+            debugShowCheckedModeBanner: false,
+      home: const _AppLoader(),
+    );
+  }
+}
+  
+
+class _AppLoader extends StatelessWidget {
+  const _AppLoader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final onboardingController = Get.find<OnboardingController>();
+    debugPrint('✅Onboarding completed: ${onboardingController.onboardingCompleted}');
+    final onboardingComplete = onboardingController.onboardingCompleted;
+
+    // Ensure AuthService is registered before using it
+    final authService = Get.find<AuthService>();
+    debugPrint('🔐Auth service initialized');
+    final isLoggedIn = authService.currentUser != null;
+
+    // Navigate accordingly
+    Future.microtask(() {
+      if (onboardingComplete) {
+        if (isLoggedIn) {
+          Get.offAll(() => const UserDashboard());
+        } else {
+          Get.offAll(() => const LoginScreen());
+        }
+      } else {
+        Get.offAll(() => OnboardingScreen());
+      }
+    });
+
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }

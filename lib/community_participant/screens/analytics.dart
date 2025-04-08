@@ -5,7 +5,7 @@ import 'package:myapp/community_participant/controllers/waste_report_controller.
 
 class WasteCategoryReport extends StatelessWidget {
   final String userEmail;
-  WasteCategoryReport({required this.userEmail});
+  const WasteCategoryReport({super.key, required this.userEmail});
 
   @override
   Widget build(BuildContext context) {

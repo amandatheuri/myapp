@@ -21,6 +21,7 @@ dependencies:
   connectivity_plus: ^5.0.1
   fl_chart: ^0.70.2
   syncfusion_flutter_charts: ^28.2.12
+  provider: ^6.1.4
   
   # Icons
   cupertino_icons: ^1.0.8
@@ -52,7 +53,9 @@ dev_dependencies:
   mockito: ^5.4.4
   fake_cloud_firestore: ^3.1.0
   firebase_auth_mocks: ^0.14.1
+  test_cov_console: ^0.2.1
   google_sign_in: ^6.3.0
+  build_runner: ^2.4.6  
   integration_test:
     sdk: flutter
 

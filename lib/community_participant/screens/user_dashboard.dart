@@ -20,9 +20,8 @@ class UserDashboard extends StatelessWidget {
     final TokenController tokenController = Get.find();
     final bool isDark = TDevice.isDarkMode(context);
 
-    // Fetch token balance and waste history when the widget is built
-    wasteController.fetchTokenBalance(authController.userEmail.value);
-    wasteController.fetchWasteHistory(authController.userEmail.value);
+    // Initialize data fetching
+    wasteController.fetchWasteData();
 
     return Scaffold(
       appBar: AppBar(
@@ -34,9 +33,7 @@ class UserDashboard extends StatelessWidget {
               radius: 18,
               backgroundColor: TColors.primaryColor,
               child: IconButton(
-                onPressed: () {
-                  Get.to(() => UserProfile());
-                },
+                onPressed: () => Get.to(() => UserProfile()),
                 icon: const Icon(Iconsax.user),
                 iconSize: 20,
                 color: Colors.white,
@@ -55,9 +52,9 @@ class UserDashboard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Welcome Section
                     Row(
                       children: [
-                        /// Welcome text
                         Text(
                           'Hi',
                           style: Theme.of(context)
@@ -81,123 +78,62 @@ class UserDashboard extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 25),
+
+                    // Waste Stats Cards
+                    Obx(() {
+                      return Row(
+                        children: [
+                          // Today's Waste Card
+                          _buildWasteCard(
+                            context: context,
+                            isDark: isDark,
+                            value: wasteController.todayWaste.value,
+                            label: "Today",
+                            subLabel: "Disposed",
+                            icon: Icons.today,
+                          ),
+
+                          SizedBox(width: 30),
+
+                          // Lifetime Waste Card
+                          _buildWasteCard(
+                            context: context,
+                            isDark: isDark,
+                            value: wasteController.lifetimeWaste.value,
+                            label: "Lifetime",
+                            subLabel: "Total",
+                            icon: Icons.auto_graph,
+                          ),
+                        ],
+                      );
+                    }),
+                    const SizedBox(height: 16),
+
+                    // Points and Challenges Section
                     Row(
                       children: [
-                        // Total Waste Deposited Card
-                        Obx(() {
-                          double totalWaste = wasteController.wasteHistory.fold(
-                              0,
-                              (sum, entry) =>
-                                  sum + (entry['totalAmount'] ?? 0));
-
-                          return Container(
-                            height: TDevice.getScreenHeight(context) * 0.25,
-                            width: TDevice.getScreenWidth(context) * 0.4,
-                            decoration: BoxDecoration(
-                              color:
-                                  isDark ? Colors.grey[900] : Colors.grey[200],
-                              borderRadius: BorderRadius.circular(15),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.white.withOpacity(0.7),
-                                  offset: Offset(-1, -1),
-                                  blurRadius: 10,
-                                ),
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  offset: Offset(5, 5),
-                                  blurRadius: 10,
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '${totalWaste.toStringAsFixed(1)}kg',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineMedium
-                                      ?.copyWith(
-                                        fontSize: 40,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                ),
-                                const SizedBox(height: 20),
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'Disposed',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(
-                                          color: Colors.grey[700],
-                                        ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }),
-                        const Spacer(),
                         Expanded(
-                          flex: 6,
-                          child: Column(
-                            children: [
-                              Obx(() => TextButton(
-                                    onPressed: () {},
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          '${wasteController.tokenBalance.value}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headlineMedium
-                                              ?.copyWith(),
-                                        ),
-                                        Text(
-                                          'Points',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall
-                                              ?.copyWith(
-                                                color: Colors.grey[700],
-                                              ),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                              const SizedBox(height: 7),
-                              TextButton(
-                                onPressed: () {},
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      '0', // Replace with dynamic data
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineMedium
-                                          ?.copyWith(),
-                                    ),
-                                    Text(
-                                      'New Challenges',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall
-                                          ?.copyWith(
-                                            color: Colors.grey[700],
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                          child: _buildPointsCard(
+                            context: context,
+                            value: tokenController.tokenBalance.value,
+                            label: "Points",
+                            icon: Iconsax.coin,
+                          ),
+                        ),
+                        SizedBox(width: 16),
+                        Expanded(
+                          child: _buildPointsCard(
+                            context: context,
+                            value: 0, // Replace with actual challenges count
+                            label: "Challenges",
+                            icon: Iconsax.award,
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 30),
+
+                    // Waste Trend Section
                     Text(
                       'Your disposal trend',
                       style:
@@ -207,55 +143,22 @@ class UserDashboard extends StatelessWidget {
                               ),
                     ),
                     const SizedBox(height: 20),
+
                     // HeatMap Calendar
                     Obx(() {
-                      print(
-                          'Waste History in UI: ${wasteController.wasteHistory}');
-
-                      // Generate heatmap dataset from waste history
                       Map<DateTime, int> heatmapData = {};
                       for (var entry in wasteController.wasteHistory) {
                         try {
-                          // Check if timestamp exists and handle different possible formats
                           if (entry['timestamp'] != null) {
-                            DateTime date;
-
-                            if (entry['timestamp'] is Timestamp) {
-                              // Handle Firestore Timestamp
-                              date = (entry['timestamp'] as Timestamp).toDate();
-                            } else if (entry['timestamp'] is Map &&
-                                entry['timestamp']['_seconds'] != null) {
-                              // Handle serialized Timestamp
-                              int seconds = entry['timestamp']['_seconds'];
-                              date = DateTime.fromMillisecondsSinceEpoch(
-                                  seconds * 1000);
-                            } else {
-                              // Skip if timestamp format is unknown
-                              print(
-                                  'Unknown timestamp format in entry: $entry');
-                              continue;
-                            }
-
-                            // Normalize the date to remove time component
+                            DateTime date =
+                                (entry['timestamp'] as Timestamp).toDate();
                             date = DateTime(date.year, date.month, date.day);
-
-                            // Add or update the entry in the heatmap data
-                            final value = entry['totalAmount'];
-                            if (value is num) {
-                              // Convert kg to integer scale for heatmap (multiply by 10 to preserve decimal)
-                              int scaledValue = (value * 10).toInt();
-
-                              // Set minimum value to 1 if waste was deposited (for visibility)
-                              if (scaledValue > 0 && scaledValue < 1)
-                                scaledValue = 1;
-
-                              // If date already exists, add to the value
-                              heatmapData[date] =
-                                  (heatmapData[date] ?? 0) + scaledValue;
-                            }
+                            final amount = entry['amount'] ?? 0;
+                            heatmapData[date] =
+                                (amount * 10).toInt(); // Scale for visibility
                           }
                         } catch (e) {
-                          print('Error processing waste history entry: $e');
+                          print('Error processing heatmap entry: $e');
                         }
                       }
 
@@ -268,25 +171,20 @@ class UserDashboard extends StatelessWidget {
                           showText: false,
                           textColor: Colors.grey[700],
                           datasets: heatmapData,
-                          // Custom color sets based on the waste amount
-                          // These values represent the scaled values (kg * 10)
                           colorsets: {
-                            1: Colors.green.withOpacity(0.2), // 0.1kg
-                            5: Colors.green.withOpacity(0.3), // 0.5kg
-                            10: Colors.green.withOpacity(0.4), // 1kg
-                            30: Colors.green.withOpacity(0.5), // 3kg
-                            50: Colors.green.withOpacity(0.6), // 5kg
-                            70: Colors.green.withOpacity(0.7), // 7kg
-                            100: Colors.green.withOpacity(0.8), // 10kg
-                            150: Colors.green.withOpacity(0.9), // 15kg
-                            200: Colors.green, // 20kg and above
+                            1: Colors.green.withOpacity(0.2),
+                            5: Colors.green.withOpacity(0.3),
+                            10: Colors.green.withOpacity(0.4),
+                            30: Colors.green.withOpacity(0.5),
+                            50: Colors.green.withOpacity(0.6),
+                            70: Colors.green.withOpacity(0.7),
+                            100: Colors.green.withOpacity(0.8),
+                            150: Colors.green.withOpacity(0.9),
+                            200: Colors.green,
                           },
                           onClick: (value) {
-                            // Show more details when tapping on a date
                             final dateStr =
                                 "${value.year}-${value.month.toString().padLeft(2, '0')}-${value.day.toString().padLeft(2, '0')}";
-
-                            // Get the original (unscaled) value
                             final scaledAmount = heatmapData[value] ?? 0;
                             final originalAmount =
                                 (scaledAmount / 10).toStringAsFixed(1);
@@ -294,7 +192,7 @@ class UserDashboard extends StatelessWidget {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                    '$dateStr: $originalAmount kg of waste disposed'),
+                                    '$dateStr: $originalAmount kg disposed'),
                                 duration: Duration(seconds: 2),
                               ),
                             );
@@ -305,11 +203,114 @@ class UserDashboard extends StatelessWidget {
                         ),
                       );
                     }),
-                    
                   ],
                 ),
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Waste Card Widget
+  Widget _buildWasteCard({
+    required BuildContext context,
+    required bool isDark,
+    required double value,
+    required String label,
+    required String subLabel,
+    required IconData icon,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: isDark ? Colors.grey[900] : Colors.grey[200],
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.white.withOpacity(0.7),
+            offset: Offset(-1, -1),
+            blurRadius: 10,
+          ),
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            offset: Offset(5, 5),
+            blurRadius: 10,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, size: 24, color: TColors.primaryColor),
+              SizedBox(width: 8),
+              Text(
+                label,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+            ],
+          ),
+          SizedBox(height: 16),
+          Text(
+            '${value.toStringAsFixed(1)}kg',
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          SizedBox(height: 4),
+          Text(
+            subLabel,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Colors.grey[700],
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Points/Challenges Card Widget
+  Widget _buildPointsCard({
+    required BuildContext context,
+    required int value,
+    required String label,
+    required IconData icon,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: TColors.primaryColor.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, size: 24, color: TColors.primaryColor),
+              SizedBox(width: 8),
+              Text(
+                label,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+            ],
+          ),
+          SizedBox(height: 16),
+          Text(
+            '$value',
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: TColors.primaryColor,
+                ),
           ),
         ],
       ),
